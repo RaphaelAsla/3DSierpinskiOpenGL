@@ -10,18 +10,19 @@
 #include "shader.hpp"
 
 using namespace glm;
+
 static Camera _camera = Camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 1920, 1024);
 
-static void mouseCallback([[maybe_unused]] GLFWwindow *window, double xpos_in, double ypos_in) {
+static void mouseCallback([[maybe_unused]] GLFWwindow* window, double xpos_in, double ypos_in) {
     _camera.processMouseMovement(xpos_in, ypos_in);
 }
 
-static void scrollCallback([[maybe_unused]] GLFWwindow *window, [[maybe_unused]] double xoffset, double yoffset) {
+static void scrollCallback([[maybe_unused]] GLFWwindow* window, [[maybe_unused]] double xoffset, double yoffset) {
     _camera.processMouseScroll(static_cast<float>(yoffset));
 }
 
 struct Renderer {
-    GLFWwindow *_window;
+    GLFWwindow* _window;
     Pyramid _fractal;
     Shader _shader;
     Shader _depth_shader;
@@ -34,7 +35,7 @@ struct Renderer {
     GLuint _depth_map_texture;
     float _last_render;
 
-    Renderer(const vec2 &window_size) : _window_size(window_size), _vao(0) {
+    Renderer(const vec2& window_size) : _window_size(window_size), _vao(0) {
         // Setup GLFW
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -70,10 +71,10 @@ struct Renderer {
         glBufferData(GL_ARRAY_BUFFER, _fractal._vertices.size() * sizeof(glm::vec3) * 2, _fractal._vertices.data(), GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void *)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void*)0);
 
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void *)(sizeof(glm::vec3)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void*)(sizeof(glm::vec3)));
 
         // Create and bind the SSBO
         glGenBuffers(1, &_ssbo);
@@ -167,7 +168,7 @@ struct Renderer {
         }
     }
 
-    void renderScene(const Shader &shader) {
+    void renderScene(const Shader& shader) {
         mat4 model = mat4(1.0f);
         model = glm::rotate(model, static_cast<float>(glfwGetTime()) * glm::radians(10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         shader.setMat4("model", model);

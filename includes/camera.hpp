@@ -10,6 +10,8 @@ static constexpr float SPEED = 2.5f;
 static constexpr float SENSITIVITY = 0.1f;
 static constexpr float ZOOM = 45.0f;
 
+using namespace glm;
+
 class Camera {
   public:
     // camera Attributes
